@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>마이 페이보릿 무비스타 | 프론트-백엔드 연결 마지막 예제!</title>
+        <title>오므라이스 맛집 | </title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
@@ -36,23 +36,23 @@
             });
 
             function showStar() {
-                $('#star-box').empty();
+                $('#matjip-box').empty();
                 $.ajax({
                     type: 'GET',
-                    url: '/api/list',
+                    url: '/api/restaurant_list',
                     data: {},
                     success: function (response) {
                         if (response['result'] == 'success') {
-                            let stars = response["list"];
-                            for (let i = 0 ; i < stars.length; i++){
-                                let star = stars[i];
-                                let name = star["name"];
-                                let imgUrl = star["img_url"];
-                                let recent = star["recent"];
-                                let url = star["url"];
-                                let like = star ["like"];
+                            let matjips = response["list"];
+                            for (let i = 0 ; i < matjips.length; i++){
+                                let matjip = matjips[i];
+                                let title = matjip["title"];
+                                let telephone = matjip["telephone"];
+                                let address = matjip["address"];
+                                let link = matjip["link"];
+                                let like = matjip ["like"];
 
-                                makeCard(name, imgUrl, recent, url, like);
+                                makeCard(title, telephone, address, link, like);
 
                             }
 
@@ -79,7 +79,7 @@
             function deleteStar(name) {
                 $.ajax({
                     type: 'POST',
-                    url: '/api/delete',
+                    url: '/api/restaurant_like',
                     data: {"name":name},
                     success: function (response) {
                         if (response['result'] == 'success') {
@@ -92,32 +92,25 @@
                     }
                 });
             }
-            function makeCard(name, imgUrl, recent, url, like) {
+            function makeCard(title, telephone, address, link, like) {
                 let tempHtml = `<div class="card">
                 <div class="card-content">
                     <div class="media">
-                        <div class="media-left">
-                            <figure class="image is-48x48">
-                                <img
-                                        src="${imgUrl}"
-                                        alt="Placeholder image"
-                                />
-                            </figure>
-                        </div>
+
                         <div class="media-content">
-                            <a href="${url}" target="_blank" class="star-name title is-4">${name} (좋아요: ${like})</a>
-                            <p class="subtitle is-6">${recent}</p>
+                            <a href="${link}" target="_blank" class="star-name title is-4">${title} (좋아요: ${like})</a>
+                            <p class="subtitle is-6">${address}</p>
                         </div>
                     </div>
                 </div>
                 <footer class="card-footer">
-                    <a href="#" onclick="likeStar('${name}')" class="card-footer-item has-text-info">
+                    <a href="#" onclick="likeStar('${title}')" class="card-footer-item has-text-info">
                         위로!
                         <span class="icon">
               <i class="fas fa-thumbs-up"></i>
             </span>
                     </a>
-                    <a href="#" onclick="deleteStar('${name}')" class="card-footer-item has-text-danger">
+                    <a href="#" onclick="deleteStar('${title}')" class="card-footer-item has-text-danger">
                         삭제
                         <span class="icon">
               <i class="fas fa-ban"></i>
@@ -125,7 +118,7 @@
                     </a>
                 </footer>
             </div>`
-                $('#star-box').append(tempHtml)
+                $('#matjip-box').append(tempHtml)
             }
 
         </script>
@@ -135,7 +128,7 @@
             <div class="hero-body">
                 <div class="container center">
                     <h1 class="title">
-                        마이 페이보릿 무비스타😆
+                        마이 페이보릿 오므라이스😆
                     </h1>
                     <h2 class="subtitle">
                         순위를 매겨봅시다
@@ -143,7 +136,7 @@
                 </div>
             </div>
         </section>
-        <div class="star-list" id="star-box">
+        <div class="star-list" id="matjip-box">
             <div class="card">
                 <div class="card-content">
                     <div class="media">
